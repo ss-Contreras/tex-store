@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { Pencil, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import ModalForm from '@/components/admin/Admin-modal-add'
+// import ModalForm from '@/components/admin/Admin-modal-add'
 
 interface Usuario {
   id: number
@@ -38,54 +38,54 @@ export default function UsuariosPage() {
     },
   ])
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [editingUsuario, setEditingUsuario] = useState<Usuario | null>(null)
+  // const [isModalOpen, setIsModalOpen] = useState(false)
+  // const [editingUsuario, setEditingUsuario] = useState<Usuario | null>(null)
 
-  const handleAddUsuario = () => {
-    setEditingUsuario(null)
-    setIsModalOpen(true)
-  }
+  // const handleAddUsuario = () => {
+  //   setEditingUsuario(null)
+  //   setIsModalOpen(true)
+  // }
 
-  const handleEditUsuario = (usuario: Usuario) => {
-    setEditingUsuario(usuario)
-    setIsModalOpen(true)
-  }
+  // const handleEditUsuario = (usuario: Usuario) => {
+  //   setEditingUsuario(usuario)
+  //   setIsModalOpen(true)
+  // }
 
   const handleDeleteUsuario = (id: number) => {
     setUsuarios(prev => prev.filter(u => u.id !== id))
   }
 
-  const handleSubmit = (data: UsuarioFormData) => {
-    if (editingUsuario) {
-      // Editar usuario existente
-      setUsuarios(prev =>
-        prev.map(u =>
-          u.id === editingUsuario.id
-            ? { ...u, ...data, compras: Number(data.compras) }
-            : u
-        )
-      )
-    } else {
-      // Crear usuario nuevo
-      const newUsuario: Usuario = {
-        id: usuarios.length + 1,
-        nombre: data.nombre,
-        correo: data.correo,
-        estado: data.estado,
-        compras: Number(data.compras) || 0,
-      }
-      setUsuarios(prev => [...prev, newUsuario])
-    }
-  }
+  // const handleSubmit = (data: UsuarioFormData) => {
+  //   if (editingUsuario) {
+  //     // Editar usuario existente
+  //     setUsuarios(prev =>
+  //       prev.map(u =>
+  //         u.id === editingUsuario.id
+  //           ? { ...u, ...data, compras: Number(data.compras) }
+  //           : u
+  //       )
+  //     )
+  //   } else {
+  //     // Crear usuario nuevo
+  //     const newUsuario: Usuario = {
+  //       id: usuarios.length + 1,
+  //       nombre: data.nombre,
+  //       correo: data.correo,
+  //       estado: data.estado,
+  //       compras: Number(data.compras) || 0,
+  //     }
+  //     setUsuarios(prev => [...prev, newUsuario])
+  //   }
+  // }
 
   return (
     <div className="p-6">
       {/* Encabezado */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Usuarios</h1>
-        <Button variant="default" onClick={handleAddUsuario}>
+        {/* <Button variant="default" onClick={handleAddUsuario}>
           Añadir Usuario
-        </Button>
+        </Button> */}
       </div>
 
       {/* Tabla */}
@@ -112,7 +112,7 @@ export default function UsuariosPage() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => handleEditUsuario(usuario)}
+                      // onClick={() => handleEditUsuario(usuario)}
                       aria-label="Editar"
                       className="bg-blue-600 text-white hover:bg-blue-700"
                     >
