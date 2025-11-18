@@ -2,34 +2,40 @@
 
 import React, { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { FormType, UserFormData, ProductFormData, PedidoFormData } from '@/types/form'
+import { FormType, FormDataMap } from '@/types/form'
 
-interface ModalFormProps {
+interface ModalFormProps<T extends FormType> {
   isOpen: boolean
   onClose: () => void
-  type: FormType
-  onSubmit: (data: any) => void
-  initialData?: any
+  type: T
+  onSubmit: (data: FormDataMap[T]) => void
+  initialData?: FormDataMap[T]
 }
 
-export default function ModalForm({
+export default function ModalForm<T extends FormType>({
   isOpen,
   onClose,
   type,
   onSubmit,
   initialData
-}: ModalFormProps) {
-  const [formData, setFormData] = useState<any>({})
+}: ModalFormProps<T>) {
+  const [formData, setFormData] = useState<FormDataMap[T]>(
+    (initialData ?? {}) as FormDataMap[T]
+  )
 
   useEffect(() => {
-    setFormData(initialData || {})
+    setFormData((initialData ?? {}) as FormDataMap[T])
   }, [initialData])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
   }
 
   const handleSubmit = () => {
@@ -46,24 +52,23 @@ export default function ModalForm({
           {initialData ? 'Editar' : 'Crear'} {type}
         </h2>
 
-        {/* FORMULARIOS DIFERENTES SEGÚN type */}
-
+        {/* FORMULARIO USUARIO */}
         {type === 'usuario' && (
           <>
             <input
               type="text"
               name="nombre"
               placeholder="Nombre"
-              value={formData.nombre || ''}
+              // value={formData.nombre ?? ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
 
             <input
-              type="text"
-              name="email"
+              type="email"
+              name="correo"
               placeholder="Correo"
-              value={formData.email || ''}
+              // value={formData.correo ?? ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
@@ -72,20 +77,21 @@ export default function ModalForm({
               type="text"
               name="rol"
               placeholder="Rol"
-              value={formData.rol || ''}
+              // value={formData.rol ?? ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
           </>
         )}
 
+        {/* FORMULARIO PRODUCTO */}
         {type === 'producto' && (
           <>
             <input
               type="text"
               name="nombre"
               placeholder="Nombre del producto"
-              value={formData.nombre || ''}
+              // value={formData.nombre ?? ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
@@ -94,7 +100,7 @@ export default function ModalForm({
               type="number"
               name="precio"
               placeholder="Precio"
-              value={formData.precio || ''}
+              // value={formData.precio ?? ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
@@ -103,19 +109,20 @@ export default function ModalForm({
               type="number"
               name="stock"
               placeholder="Stock"
-              value={formData.stock || ''}
+              // value={formData.stock ?? ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
           </>
         )}
 
+        {/* FORMULARIO PEDIDO */}
         {type === 'pedido' && (
           <>
             <input
               type="date"
               name="fecha"
-              value={formData.fecha || ''}
+              // value={formData.fecha ?? ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
@@ -124,7 +131,7 @@ export default function ModalForm({
               type="number"
               name="total"
               placeholder="Total"
-              value={formData.total || ''}
+              // value={formData.total ?? ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
@@ -133,7 +140,7 @@ export default function ModalForm({
               type="text"
               name="estado"
               placeholder="Estado"
-              value={formData.estado || ''}
+              // value={formData.estado ?? ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
@@ -141,8 +148,12 @@ export default function ModalForm({
         )}
 
         <div className="flex justify-end gap-2 mt-4">
-          <Button variant="secondary" onClick={onClose}>Cancelar</Button>
-          <Button variant="default" onClick={handleSubmit}>Guardar</Button>
+          <Button variant="secondary" onClick={onClose}>
+            Cancelar
+          </Button>
+          <Button variant="default" onClick={handleSubmit}>
+            Guardar
+          </Button>
         </div>
       </div>
     </div>
