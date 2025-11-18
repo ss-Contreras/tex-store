@@ -138,7 +138,7 @@ export default function PedidosPage() {
         onClose={() => setIsModalOpen(false)}
         type="pedido"
         onSubmit={handleSubmit}
-        initialData={editingPedido}
+        // initialData={editingPedido}
       />
     </div>
   )
