@@ -12,6 +12,7 @@ interface Pedido {
   estado: string
 }
 
+
 interface PedidoFormData {
   fecha: string
   total: number | string
