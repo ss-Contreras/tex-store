@@ -1,11 +1,16 @@
-"use client"
+import { ReactNode } from 'react'
+import { Header } from '@/components/Header'
+import { Footer } from '@/components/Footer'
+import { ClientLayoutWrapper } from '@/components/Client-layout-wrapper'
 
-import React from "react"
-
-export function ClientLayoutWrapper({ children }: { children: React.ReactNode }) {
+export default function MainLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
-      {children}
-    </div>
+    <>
+      <Header />
+      <ClientLayoutWrapper>
+        {children}
+      </ClientLayoutWrapper>
+      <Footer />
+    </>
   )
 }

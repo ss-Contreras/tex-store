@@ -1,15 +1,22 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import { Pencil, Trash } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import ModalForm from '@/components/admin/Admin-modal-add';
+import React, { useState } from 'react'
+import { Pencil, Trash } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import ModalForm from '@/components/admin/Admin-modal-add'
 
 interface Pedido {
-  id: string;
-  fecha: string;
-  total: number;
-  estado: string;
+  id: string
+  fecha: string
+  total: number
+  estado: string
+}
+
+interface PedidoFormData {
+  fecha: string
+  total: number | string
+  estado: string
+  id?: string
 }
 
 export default function PedidosPage() {
@@ -26,46 +33,47 @@ export default function PedidosPage() {
       total: 85,
       estado: 'Pendiente',
     },
-  ]);
+  ])
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingPedido, setEditingPedido] = useState<Pedido | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editingPedido, setEditingPedido] = useState<Pedido | null>(null)
 
-  const handleAddPedido = () => {
-    setEditingPedido(null);
-    setIsModalOpen(true);
-  };
+  const handleAddPedido = (): void => {
+    setEditingPedido(null)
+    setIsModalOpen(true)
+  }
 
-  const handleEditPedido = (pedido: Pedido) => {
-    setEditingPedido(pedido);
-    setIsModalOpen(true);
-  };
+  const handleEditPedido = (pedido: Pedido): void => {
+    setEditingPedido(pedido)
+    setIsModalOpen(true)
+  }
 
-  const handleDeletePedido = (id: string) => {
-    setPedidos((prev) => prev.filter((p) => p.id !== id));
-  };
+  const handleDeletePedido = (id: string): void => {
+    setPedidos(prev => prev.filter(p => p.id !== id))
+  }
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: PedidoFormData): void => {
     if (editingPedido) {
-      // Editar
-      setPedidos((prev) =>
-        prev.map((p) => (p.id === editingPedido.id ? { ...p, ...data } : p))
-      );
+      setPedidos(prev =>
+        prev.map(p =>
+          p.id === editingPedido.id
+            ? { ...p, ...data, total: Number(data.total) }
+            : p
+        )
+      )
     } else {
-      // Añadir
       const newPedido: Pedido = {
-        id: data.id,
+        id: data.id ?? `#${Math.floor(Math.random() * 10000)}`,
         fecha: data.fecha,
         total: Number(data.total),
         estado: data.estado,
-      };
-      setPedidos((prev) => [...prev, newPedido]);
+      }
+      setPedidos(prev => [...prev, newPedido])
     }
-  };
+  }
 
   return (
     <div className="p-6">
-      {/* Encabezado */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Pedidos</h1>
         <Button variant="default" onClick={handleAddPedido}>
@@ -73,48 +81,32 @@ export default function PedidosPage() {
         </Button>
       </div>
 
-      {/* Tabla */}
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200 text-sm">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">
-                ID
-              </th>
-              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">
-                Fecha
-              </th>
-              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">
-                Total
-              </th>
-              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">
-                Estado
-              </th>
-              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">
-                Acciones
-              </th>
+              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">ID</th>
+              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">Fecha</th>
+              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">Total</th>
+              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">Estado</th>
+              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {pedidos.map((pedido) => (
+            {pedidos.map(pedido => (
               <tr key={pedido.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap">{pedido.id}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{pedido.fecha}</td>
                 <td className="px-6 py-4 whitespace-nowrap">${pedido.total}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {pedido.estado === 'Completado' ? (
-                    <span className="text-green-600 font-semibold">
-                      Completado
-                    </span>
+                    <span className="text-green-600 font-semibold">Completado</span>
                   ) : (
-                    <span className="text-orange-600 font-semibold">
-                      Pendiente
-                    </span>
+                    <span className="text-orange-600 font-semibold">Pendiente</span>
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex space-x-2">
-                    {/* Lápiz con fondo azul */}
                     <Button
                       variant="ghost"
                       size="icon"
@@ -124,7 +116,6 @@ export default function PedidosPage() {
                     >
                       <Pencil className="w-4 h-4" />
                     </Button>
-                    {/* Papelera destructiva */}
                     <Button
                       variant="destructive"
                       size="icon"
@@ -141,7 +132,6 @@ export default function PedidosPage() {
         </table>
       </div>
 
-      {/* Modal */}
       <ModalForm
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -150,5 +140,5 @@ export default function PedidosPage() {
         initialData={editingPedido}
       />
     </div>
-  );
+  )
 }

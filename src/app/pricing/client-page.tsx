@@ -13,10 +13,9 @@ import {
   Lock,
   Star,
   CheckCircle,
-  User,
 } from "lucide-react"
 
-type Currency = "USD" | "COP"
+// type Currency = "USD" | "COP"
 
 function Logo() {
   return (

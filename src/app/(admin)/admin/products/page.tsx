@@ -44,14 +44,12 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Product } from '@/utils/types';
-import { fetchProducts, createProduct, updateProduct, deleteProduct } from '@/store/slices/productoSlice';
+import { fetchProducts, deleteProduct } from '@/store/slices/productoSlice';
 import { useDropzone } from 'react-dropzone';
-// Si tienes un thunk para cargar las categorías, por ejemplo:
 import { fetchCategorias } from '@/store/slices/categoriaSlice';
+import Image from 'next/image';
 
-//
-// Esquema del formulario. Se usa un union para que el campo "image" pueda ser un File (nuevo) o una URL (al editar).
-//
+// Validación del formulario
 const formSchema = z.object({
   id: z.number().optional(),
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
@@ -65,9 +63,7 @@ const formSchema = z.object({
   }),
 });
 
-//
-// Componente para drag & drop de imagen con preview
-//
+// Componente Dropzone con vista previa
 const ImageDropzone = ({
   value,
   onChange,
@@ -87,14 +83,12 @@ const ImageDropzone = ({
   });
 
   useEffect(() => {
-    if (value) {
-      if (value instanceof File) {
-        const objectUrl = URL.createObjectURL(value);
-        setPreview(objectUrl);
-        return () => URL.revokeObjectURL(objectUrl);
-      } else if (typeof value === 'string') {
-        setPreview(value);
-      }
+    if (value instanceof File) {
+      const objectUrl = URL.createObjectURL(value);
+      setPreview(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
+    } else if (typeof value === 'string') {
+      setPreview(value);
     } else {
       setPreview('');
     }
@@ -113,11 +107,14 @@ const ImageDropzone = ({
           <p>Arrastra y suelta la imagen o haz clic para seleccionar</p>
         )}
       </div>
+
       {preview && (
         <div className="mt-2">
-          <img
+          <Image
             src={preview}
             alt="Preview"
+            width={400}
+            height={300}
             className="w-full max-h-60 object-cover rounded"
           />
         </div>
@@ -128,10 +125,9 @@ const ImageDropzone = ({
 
 export default function ProductsPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { list, status, error } = useSelector((state: RootState) => state.products);
+  const { list } = useSelector((state: RootState) => state.products);
   const categories = useSelector((state: RootState) => state.categorias.list);
 
-  // Carga las categorías si aún no se han obtenido
   useEffect(() => {
     if (categories.length === 0) {
       dispatch(fetchCategorias());
@@ -160,7 +156,6 @@ export default function ProductsPage() {
 
   useEffect(() => {
     if (currentProduct) {
-      // Al editar, se carga la URL existente en el campo "image"
       form.reset({
         ...currentProduct,
         image: currentProduct.image,
@@ -170,40 +165,31 @@ export default function ProductsPage() {
     }
   }, [currentProduct, form]);
 
-  // const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-  //   if (currentProduct) {
-  //     await dispatch(updateProduct({ ...values, id: currentProduct.id }));
-  //   } else {
-  //     await dispatch(createProduct(values));
-  //   }
-  //   setOpenDialog(false);
-  //   setCurrentProduct(null);
-  // };
-
   const handleDelete = (id: number) => {
     dispatch(deleteProduct(id));
   };
 
   return (
     <div className="p-6">
-      {/* Encabezado y botón para abrir el modal */}
       <div className="flex flex-col sm:flex-row items-center justify-between mb-4">
         <h1 className="text-2xl font-bold mb-4 sm:mb-0">Productos</h1>
+
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
           <DialogTrigger asChild>
             <Button variant="default" onClick={() => setCurrentProduct(null)}>
               Añadir Producto
             </Button>
           </DialogTrigger>
+
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
               <DialogTitle>
                 {currentProduct ? 'Editar Producto' : 'Nuevo Producto'}
               </DialogTitle>
             </DialogHeader>
+
             <Form {...form}>
-              <form  className="space-y-4">
-                {/* Grid responsive: dos columnas en pantallas medianas y mayores */}
+              <form className="space-y-4">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <FormField
                     control={form.control}
@@ -271,7 +257,7 @@ export default function ProductsPage() {
                           onValueChange={(value) =>
                             field.onChange(parseInt(value))
                           }
-                          value={field.value ? field.value.toString() : ""}
+                          value={field.value ? field.value.toString() : ''}
                         >
                           <FormControl>
                             <SelectTrigger>
@@ -303,9 +289,7 @@ export default function ProductsPage() {
                           <input
                             type="checkbox"
                             checked={field.value}
-                            onChange={(e) =>
-                              field.onChange(e.target.checked)
-                            }
+                            onChange={(e) => field.onChange(e.target.checked)}
                             className="h-4 w-4 text-primary rounded focus:ring-primary"
                           />
                         </FormControl>
@@ -316,7 +300,6 @@ export default function ProductsPage() {
                   />
                 </div>
 
-                {/* Campo de descripción (ocupa todo el ancho) */}
                 <FormField
                   control={form.control}
                   name="description"
@@ -334,14 +317,16 @@ export default function ProductsPage() {
                   )}
                 />
 
-                {/* Campo de imagen con drag & drop */}
                 <FormField
                   control={form.control}
                   name="image"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Imagen</FormLabel>
-                      <ImageDropzone value={field.value} onChange={field.onChange} />
+                      <ImageDropzone
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
                       <FormMessage />
                     </FormItem>
                   )}
@@ -378,30 +363,46 @@ export default function ProductsPage() {
               <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">Acciones</th>
             </tr>
           </thead>
+
           <tbody className="divide-y divide-gray-200">
             {list.map((product) => (
               <tr key={product.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {product.image ? (
-                    <img
+                    <Image
                       src={product.image}
                       alt={product.name}
+                      width={64}
+                      height={64}
                       className="w-16 h-16 object-cover rounded"
                     />
                   ) : (
                     <span className="text-gray-400">Sin imagen</span>
                   )}
                 </td>
+
                 <td className="px-6 py-4 whitespace-nowrap">{product.name}</td>
-                <td className="px-6 py-4 whitespace-nowrap">${product.price.toFixed(2)}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{product.stockQuantity}</td>
+
+                <td className="px-6 py-4 whitespace-nowrap">
+                  ${product.price.toFixed(2)}
+                </td>
+
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {product.stockQuantity}
+                </td>
+
                 <td className="px-6 py-4 whitespace-nowrap">
                   {product.isPublished ? (
-                    <span className="text-green-600 font-semibold">Publicado</span>
+                    <span className="text-green-600 font-semibold">
+                      Publicado
+                    </span>
                   ) : (
-                    <span className="text-gray-500 font-semibold">No publicado</span>
+                    <span className="text-gray-500 font-semibold">
+                      No publicado
+                    </span>
                   )}
                 </td>
+
                 <td className="px-6 py-4 whitespace-nowrap space-x-2">
                   <Button
                     variant="ghost"
@@ -415,6 +416,7 @@ export default function ProductsPage() {
                   >
                     <Pencil className="w-4 h-4" />
                   </Button>
+
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button
@@ -425,6 +427,7 @@ export default function ProductsPage() {
                         <Trash className="w-4 h-4" />
                       </Button>
                     </AlertDialogTrigger>
+
                     <AlertDialogContent>
                       <AlertDialogHeader>
                         <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
@@ -432,6 +435,7 @@ export default function ProductsPage() {
                           Esta acción eliminará permanentemente el producto.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
+
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancelar</AlertDialogCancel>
                         <AlertDialogAction
@@ -447,6 +451,7 @@ export default function ProductsPage() {
               </tr>
             ))}
           </tbody>
+
         </table>
       </div>
     </div>

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { CartSheet } from './Cart-sheet';
 import UserAccount from './User-account';
 import { MapPin, Search } from 'lucide-react';

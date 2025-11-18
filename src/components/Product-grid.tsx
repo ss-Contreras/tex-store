@@ -1,16 +1,9 @@
-import { Product } from '@/utils/types';
-import { ProductCard } from './Product-card';
+import React from 'react'
 
-interface ProductGridProps {
-  products: Product[];
-}
-
-export function ProductGrid({ products }: ProductGridProps) {
+const Productgrid = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      {/* {products.map((product) => (
-        <ProductCard key={product.id} product={product}/>
-      ))} */}
-    </div>
-  );
+    <div>Product-grid</div>
+  )
 }
+
+export default Productgrid

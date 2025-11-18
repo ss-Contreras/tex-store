@@ -1,16 +1,14 @@
 // src/app/category/page.tsx
 'use client'
 
-import { products } from '@/lib/data/products';
-import { ProductGrid } from '@/components/Product-grid';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 // import { notFound } from 'next/navigation';
 
-type Props = {
-  searchParams: { category?: string };
-};
+// type Props = {
+//   searchParams: { category?: string };
+// };
 
 const CategoryPage = () => {
   // Validación de categoría

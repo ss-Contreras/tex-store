@@ -1,12 +1,35 @@
-// components/ModalForm.tsx
 import React, { useState, useEffect } from 'react';
+
+type UserFormData = {
+  nombre: string;
+  correo: string;
+  estado: string;
+  compras: number | string;
+};
+
+type PedidoFormData = {
+  id: string;
+  fecha: string;
+  total: number | string;
+  estado: string;
+};
+
+type ProductoFormData = {
+  id: string;
+  nombre: string;
+  precio: number | string;
+  stock: number | string;
+  estado: string;
+};
+
+type FormDataType = UserFormData | PedidoFormData | ProductoFormData;
 
 interface ModalFormProps {
   isOpen: boolean;
   onClose: () => void;
   type: 'usuario' | 'pedido' | 'producto';
-  onSubmit: (data: any) => void;
-  initialData?: any; // Datos iniciales para edición
+  onSubmit: (data: FormDataType) => void;
+  initialData?: FormDataType;
 }
 
 const ModalForm: React.FC<ModalFormProps> = ({
@@ -16,13 +39,13 @@ const ModalForm: React.FC<ModalFormProps> = ({
   onSubmit,
   initialData
 }) => {
-  const [formData, setFormData] = useState<any>({});
+  const [formData, setFormData] = useState<FormDataType>({} as FormDataType);
 
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
     } else {
-      setFormData({});
+      setFormData({} as FormDataType);
     }
   }, [initialData]);
 
@@ -43,7 +66,6 @@ const ModalForm: React.FC<ModalFormProps> = ({
     onClose();
   };
 
-  // Renderiza campos dependiendo del tipo
   const renderFields = () => {
     switch (type) {
       case 'usuario':
@@ -53,25 +75,27 @@ const ModalForm: React.FC<ModalFormProps> = ({
               <label className="block mb-1 font-semibold">Nombre:</label>
               <input
                 name="nombre"
-                value={formData.nombre || ''}
+                value={(formData as UserFormData).nombre || ''}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded px-2 py-1"
               />
             </div>
+
             <div className="mb-4">
               <label className="block mb-1 font-semibold">Correo:</label>
               <input
                 name="correo"
-                value={formData.correo || ''}
+                value={(formData as UserFormData).correo || ''}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded px-2 py-1"
               />
             </div>
+
             <div className="mb-4">
               <label className="block mb-1 font-semibold">Estado:</label>
               <select
                 name="estado"
-                value={formData.estado || 'Activo'}
+                value={(formData as UserFormData).estado || 'Activo'}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded px-2 py-1"
               >
@@ -79,18 +103,20 @@ const ModalForm: React.FC<ModalFormProps> = ({
                 <option value="Inactivo">Inactivo</option>
               </select>
             </div>
+
             <div className="mb-4">
               <label className="block mb-1 font-semibold">Compras:</label>
               <input
                 type="number"
                 name="compras"
-                value={formData.compras || 0}
+                value={(formData as UserFormData).compras || 0}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded px-2 py-1"
               />
             </div>
           </>
         );
+
       case 'pedido':
         return (
           <>
@@ -98,36 +124,39 @@ const ModalForm: React.FC<ModalFormProps> = ({
               <label className="block mb-1 font-semibold">ID:</label>
               <input
                 name="id"
-                value={formData.id || ''}
+                value={(formData as PedidoFormData).id || ''}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded px-2 py-1"
               />
             </div>
+
             <div className="mb-4">
               <label className="block mb-1 font-semibold">Fecha:</label>
               <input
                 type="date"
                 name="fecha"
-                value={formData.fecha || ''}
+                value={(formData as PedidoFormData).fecha || ''}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded px-2 py-1"
               />
             </div>
+
             <div className="mb-4">
               <label className="block mb-1 font-semibold">Total:</label>
               <input
                 type="number"
                 name="total"
-                value={formData.total || ''}
+                value={(formData as PedidoFormData).total || ''}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded px-2 py-1"
               />
             </div>
+
             <div className="mb-4">
               <label className="block mb-1 font-semibold">Estado:</label>
               <select
                 name="estado"
-                value={formData.estado || 'Pendiente'}
+                value={(formData as PedidoFormData).estado || 'Pendiente'}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded px-2 py-1"
               >
@@ -137,6 +166,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
             </div>
           </>
         );
+
       case 'producto':
         return (
           <>
@@ -144,45 +174,49 @@ const ModalForm: React.FC<ModalFormProps> = ({
               <label className="block mb-1 font-semibold">ID:</label>
               <input
                 name="id"
-                value={formData.id || ''}
+                value={(formData as ProductoFormData).id || ''}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded px-2 py-1"
               />
             </div>
+
             <div className="mb-4">
               <label className="block mb-1 font-semibold">Nombre Producto:</label>
               <input
                 name="nombre"
-                value={formData.nombre || ''}
+                value={(formData as ProductoFormData).nombre || ''}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded px-2 py-1"
               />
             </div>
+
             <div className="mb-4">
               <label className="block mb-1 font-semibold">Precio:</label>
               <input
                 type="number"
                 name="precio"
-                value={formData.precio || ''}
+                value={(formData as ProductoFormData).precio || ''}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded px-2 py-1"
               />
             </div>
+
             <div className="mb-4">
               <label className="block mb-1 font-semibold">Stock:</label>
               <input
                 type="number"
                 name="stock"
-                value={formData.stock || ''}
+                value={(formData as ProductoFormData).stock || ''}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded px-2 py-1"
               />
             </div>
+
             <div className="mb-4">
               <label className="block mb-1 font-semibold">Estado:</label>
               <select
                 name="estado"
-                value={formData.estado || 'Disponible'}
+                value={(formData as ProductoFormData).estado || 'Disponible'}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded px-2 py-1"
               >
@@ -192,6 +226,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
             </div>
           </>
         );
+
       default:
         return null;
     }
@@ -203,8 +238,10 @@ const ModalForm: React.FC<ModalFormProps> = ({
         <h2 className="text-xl font-bold mb-4">
           {initialData ? 'Editar' : 'Añadir'} {type}
         </h2>
+
         <form onSubmit={handleSubmit}>
           {renderFields()}
+
           <div className="flex justify-end space-x-2">
             <button
               type="submit"
@@ -212,6 +249,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
             >
               Guardar
             </button>
+
             <button
               type="button"
               onClick={onClose}
@@ -221,6 +259,7 @@ const ModalForm: React.FC<ModalFormProps> = ({
             </button>
           </div>
         </form>
+
       </div>
     </div>
   );

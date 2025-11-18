@@ -1,44 +1,59 @@
-'use client';
+'use client'
 
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { DataTable } from '@/components/DataTable';
-import { recentOrders } from '@/data/mock';
-import { products } from '@/lib/data/products';
-import Image from 'next/image';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
+import { DataTable } from '@/components/DataTable'
+import { recentOrders } from '@/data/mock'
+import { products } from '@/lib/data/products'
+import Image from 'next/image'
+import { ColumnDef, Row } from '@tanstack/react-table'
+
+interface Order {
+  id: string
+  customer: string
+  amount: number
+  status: string
+  date: string
+}
 
 export default function AdminDashboard() {
-  const columns = [
+  const columns: ColumnDef<Order>[] = [
     { accessorKey: 'id', header: 'ID' },
     { accessorKey: 'customer', header: 'Cliente' },
+
     {
       accessorKey: 'amount',
       header: 'Monto',
-      cell: ({ row }: any) => `$${row.getValue('amount')}`,
+      cell: ({ row }: { row: Row<Order> }) =>
+        `$${row.getValue<number>('amount')}`,
     },
+
     {
       accessorKey: 'status',
       header: 'Estado',
-      cell: ({ row }: any) => (
-        <span
-          className={`px-2 py-1 rounded-full text-xs ${
-            row.getValue('status') === 'Completado'
-              ? 'bg-green-100 text-green-800'
-              : row.getValue('status') === 'Pendiente'
-              ? 'bg-yellow-100 text-yellow-800'
-              : 'bg-blue-100 text-blue-800'
-          }`}
-        >
-          {row.getValue('status')}
-        </span>
-      ),
+      cell: ({ row }: { row: Row<Order> }) => {
+        const status = row.getValue<string>('status')
+        return (
+          <span
+            className={`px-2 py-1 rounded-full text-xs ${
+              status === 'Completado'
+                ? 'bg-green-100 text-green-800'
+                : status === 'Pendiente'
+                ? 'bg-yellow-100 text-yellow-800'
+                : 'bg-blue-100 text-blue-800'
+            }`}
+          >
+            {status}
+          </span>
+        )
+      },
     },
+
     { accessorKey: 'date', header: 'Fecha' },
-  ];
+  ]
 
   return (
     <div className="space-y-8 p-4 sm:p-6 lg:p-8">
-      {/* Sección de encabezado */}
       <div className="text-center sm:text-left">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
           Dashboard
@@ -48,7 +63,6 @@ export default function AdminDashboard() {
         </p>
       </div>
 
-      {/* Cuadrícula de estadísticas */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard title="Ventas Totales" value="$45,234" change="+12.5%" />
         <StatCard title="Pedidos Activos" value="2,345" change="+8.3%" />
@@ -56,7 +70,6 @@ export default function AdminDashboard() {
         <StatCard title="Tasa de Conversión" value="3.6%" change="-2.1%" />
       </div>
 
-      {/* Sección de gráficos */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="p-6">
           <CardHeader>
@@ -80,7 +93,6 @@ export default function AdminDashboard() {
         </Card>
       </div>
 
-      {/* Pedidos recientes */}
       <Card className="p-6">
         <CardHeader>
           <CardTitle>Últimos Pedidos</CardTitle>
@@ -92,7 +104,6 @@ export default function AdminDashboard() {
         </CardContent>
       </Card>
 
-      {/* Inventario de productos */}
       <Card className="p-6">
         <CardHeader>
           <CardTitle>Inventario de Productos</CardTitle>
@@ -105,7 +116,6 @@ export default function AdminDashboard() {
                 className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-4"
               >
                 <div className="flex items-center gap-4">
-                  {/* Imagen del producto */}
                   <div className="w-12 h-12 bg-gray-100 dark:bg-gray-600 rounded-lg overflow-hidden">
                     <Image
                       src={product.image}
@@ -134,7 +144,7 @@ export default function AdminDashboard() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }
 
 const StatCard = ({
@@ -142,9 +152,9 @@ const StatCard = ({
   value,
   change,
 }: {
-  title: string;
-  value: string;
-  change: string;
+  title: string
+  value: string
+  change: string
 }) => (
   <Card className="p-6 transition-all hover:shadow-md">
     <CardHeader className="pb-4">
@@ -163,4 +173,4 @@ const StatCard = ({
       </p>
     </CardContent>
   </Card>
-);
+)

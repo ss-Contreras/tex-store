@@ -1,16 +1,23 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import { Pencil, Trash } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import ModalForm from '@/components/admin/Admin-modal-add';
+import React, { useState } from 'react'
+import { Pencil, Trash } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import ModalForm from '@/components/admin/Admin-modal-add'
 
 interface Usuario {
-  id: number;
-  nombre: string;
-  correo: string;
-  estado: string;
-  compras: number;
+  id: number
+  nombre: string
+  correo: string
+  estado: string
+  compras: number
+}
+
+interface UsuarioFormData {
+  nombre: string
+  correo: string
+  estado: string
+  compras: number | string
 }
 
 export default function UsuariosPage() {
@@ -29,31 +36,31 @@ export default function UsuariosPage() {
       estado: 'Inactivo',
       compras: 2,
     },
-  ]);
+  ])
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingUsuario, setEditingUsuario] = useState<Usuario | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editingUsuario, setEditingUsuario] = useState<Usuario | null>(null)
 
   const handleAddUsuario = () => {
-    setEditingUsuario(null);
-    setIsModalOpen(true);
-  };
+    setEditingUsuario(null)
+    setIsModalOpen(true)
+  }
 
   const handleEditUsuario = (usuario: Usuario) => {
-    setEditingUsuario(usuario);
-    setIsModalOpen(true);
-  };
+    setEditingUsuario(usuario)
+    setIsModalOpen(true)
+  }
 
   const handleDeleteUsuario = (id: number) => {
-    setUsuarios((prev) => prev.filter((u) => u.id !== id));
-  };
+    setUsuarios(prev => prev.filter(u => u.id !== id))
+  }
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: UsuarioFormData) => {
     if (editingUsuario) {
       // Editar
-      setUsuarios((prev) =>
-        prev.map((u) => (u.id === editingUsuario.id ? { ...u, ...data } : u))
-      );
+      setUsuarios(prev =>
+        prev.map(u => (u.id === editingUsuario.id ? { ...u, ...data, compras: Number(data.compras) } : u))
+      )
     } else {
       // Añadir
       const newUsuario: Usuario = {
@@ -62,10 +69,10 @@ export default function UsuariosPage() {
         correo: data.correo,
         estado: data.estado,
         compras: Number(data.compras) || 0,
-      };
-      setUsuarios((prev) => [...prev, newUsuario]);
+      }
+      setUsuarios(prev => [...prev, newUsuario])
     }
-  };
+  }
 
   return (
     <div className="p-6">
@@ -82,25 +89,15 @@ export default function UsuariosPage() {
         <table className="min-w-full divide-y divide-gray-200 text-sm">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">
-                Usuario
-              </th>
-              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">
-                Correo
-              </th>
-              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">
-                Estado
-              </th>
-              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">
-                Compras
-              </th>
-              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">
-                Acciones
-              </th>
+              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">Usuario</th>
+              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">Correo</th>
+              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">Estado</th>
+              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">Compras</th>
+              <th className="px-6 py-3 text-left font-bold text-gray-700 uppercase">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {usuarios.map((usuario) => (
+            {usuarios.map(usuario => (
               <tr key={usuario.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap">{usuario.nombre}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{usuario.correo}</td>
@@ -108,7 +105,6 @@ export default function UsuariosPage() {
                 <td className="px-6 py-4 whitespace-nowrap">{usuario.compras}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex space-x-2">
-                    {/* Lápiz con fondo azul */}
                     <Button
                       variant="ghost"
                       size="icon"
@@ -118,7 +114,6 @@ export default function UsuariosPage() {
                     >
                       <Pencil className="w-4 h-4" />
                     </Button>
-                    {/* Papelera (igual que antes, destructivo) */}
                     <Button
                       variant="destructive"
                       size="icon"
@@ -144,5 +139,5 @@ export default function UsuariosPage() {
         initialData={editingUsuario}
       />
     </div>
-  );
+  )
 }

@@ -1,7 +1,6 @@
 // components/ProductCard.tsx
 import { Product } from '@/utils/types';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart, Star } from 'lucide-react';

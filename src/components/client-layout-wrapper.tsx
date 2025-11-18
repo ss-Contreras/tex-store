@@ -1,22 +1,20 @@
-'use client';
+'use client'
 
-import { ReactNode, useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { ReactNode, useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 
 interface ClientLayoutWrapperProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export function ClientLayoutWrapper({ children }: ClientLayoutWrapperProps) {
-  
-  const [isMounted, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    setIsMounted(true)
+  }, [])
 
-  if (!isMounted) return null;
-
+  if (!isMounted) return null
 
   return (
     <AnimatePresence mode="wait">
@@ -30,5 +28,5 @@ export function ClientLayoutWrapper({ children }: ClientLayoutWrapperProps) {
         <div className="min-h-[calc(100vh-140px)]">{children}</div>
       </motion.main>
     </AnimatePresence>
-  );
+  )
 }

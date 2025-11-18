@@ -1,11 +1,8 @@
-// context/AdminContext.tsx
 'use client';
 
 import { createContext, useContext, ReactNode } from 'react';
 
-type AdminContextType = {
-  // Agrega aquí el estado global del dashboard
-};
+type AdminContextType = Record<string, never>;
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 

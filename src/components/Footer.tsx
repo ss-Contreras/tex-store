@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Icons } from "@/components/Icon";
+// import { Icons } from "@/components/Icon";
 import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
 
 export function Footer() {

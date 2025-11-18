@@ -8,7 +8,6 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { mockCartItems } from '@/lib/data/cart';
 import { Label } from '@/components/ui/label';
 import Image from 'next/image';
-import Link from 'next/link';
 
 type Step = 'shipping' | 'payment' | 'review';
 

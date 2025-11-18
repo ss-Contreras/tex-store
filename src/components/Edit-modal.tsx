@@ -10,11 +10,18 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 
+interface ProductFormData {
+  nombre: string;
+  precio: number | string;
+  stock: number | string;
+  estado: string;
+}
+
 interface EditModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: any) => void;
-  initialData?: any;
+  onSubmit: (data: ProductFormData) => void;
+  initialData?: ProductFormData;
 }
 
 export const EditModal: React.FC<EditModalProps> = ({
@@ -23,21 +30,33 @@ export const EditModal: React.FC<EditModalProps> = ({
   onSubmit,
   initialData,
 }) => {
-  const [formData, setFormData] = useState<any>({});
+  const [formData, setFormData] = useState<ProductFormData>({
+    nombre: '',
+    precio: '',
+    stock: '',
+    estado: '',
+  });
 
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
     } else {
-      setFormData({});
+      setFormData({
+        nombre: '',
+        precio: '',
+        stock: '',
+        estado: '',
+      });
     }
   }, [initialData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -58,37 +77,41 @@ export const EditModal: React.FC<EditModalProps> = ({
               <Label>Nombre</Label>
               <Input
                 name="nombre"
-                value={formData.nombre || ''}
+                value={formData.nombre}
                 onChange={handleChange}
               />
             </div>
+
             <div>
               <Label>Precio</Label>
               <Input
                 type="number"
                 name="precio"
-                value={formData.precio || ''}
+                value={formData.precio}
                 onChange={handleChange}
               />
             </div>
+
             <div>
               <Label>Stock</Label>
               <Input
                 type="number"
                 name="stock"
-                value={formData.stock || ''}
+                value={formData.stock}
                 onChange={handleChange}
               />
             </div>
+
             <div>
               <Label>Estado</Label>
               <Input
                 name="estado"
-                value={formData.estado || ''}
+                value={formData.estado}
                 onChange={handleChange}
               />
             </div>
           </div>
+
           <DialogFooter>
             <Button type="submit">Guardar</Button>
             <Button variant="secondary" onClick={onClose}>
