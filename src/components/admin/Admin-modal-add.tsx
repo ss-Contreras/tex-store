@@ -2,7 +2,19 @@
 
 import React, { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { FormType, FormDataMap } from '@/types/form'
+import {
+  FormType,
+  UserFormData,
+  ProductFormData,
+  PedidoFormData
+} from '@/types/form'
+
+// Tipo por cada formulario
+type FormDataMap = {
+  usuario: UserFormData
+  producto: ProductFormData
+  pedido: PedidoFormData
+}
 
 interface ModalFormProps<T extends FormType> {
   isOpen: boolean
@@ -19,19 +31,15 @@ export default function ModalForm<T extends FormType>({
   onSubmit,
   initialData
 }: ModalFormProps<T>) {
-  const [formData, setFormData] = useState<FormDataMap[T]>(
-    (initialData ?? {}) as FormDataMap[T]
-  )
+
+  const [formData, setFormData] = useState<FormDataMap[T]>({} as FormDataMap[T])
 
   useEffect(() => {
     setFormData((initialData ?? {}) as FormDataMap[T])
   }, [initialData])
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -48,99 +56,101 @@ export default function ModalForm<T extends FormType>({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
       <div className="bg-white p-6 rounded-xl w-96 shadow-lg">
+
         <h2 className="text-xl font-bold mb-4">
           {initialData ? 'Editar' : 'Crear'} {type}
         </h2>
 
-        {/* FORMULARIO USUARIO */}
+        {/* FORMULARIOS */}
+
         {type === 'usuario' && (
           <>
             <input
               type="text"
               name="nombre"
               placeholder="Nombre"
-              // value={formData.nombre ?? ''}
+              value={(formData as UserFormData).nombre || ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
-
-            <input
-              type="email"
-              name="correo"
-              placeholder="Correo"
-              // value={formData.correo ?? ''}
-              onChange={handleChange}
-              className="w-full mb-3 p-2 border rounded"
-            />
-
             <input
               type="text"
-              name="rol"
-              placeholder="Rol"
-              // value={formData.rol ?? ''}
+              name="correo"
+              placeholder="Correo"
+              // value={(formData as UserFormData).correo || ''}
+              onChange={handleChange}
+              className="w-full mb-3 p-2 border rounded"
+            />
+            <input
+              type="text"
+              name="estado"
+              placeholder="Estado"
+              // value={(formData as UserFormData).estado || ''}
+              onChange={handleChange}
+              className="w-full mb-3 p-2 border rounded"
+            />
+            <input
+              type="number"
+              name="compras"
+              placeholder="Compras"
+              // value={(formData as UserFormData).compras || ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
           </>
         )}
 
-        {/* FORMULARIO PRODUCTO */}
         {type === 'producto' && (
           <>
             <input
               type="text"
               name="nombre"
               placeholder="Nombre del producto"
-              // value={formData.nombre ?? ''}
+              value={(formData as ProductFormData).nombre || ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
-
             <input
               type="number"
               name="precio"
               placeholder="Precio"
-              // value={formData.precio ?? ''}
+              value={(formData as ProductFormData).precio || ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
-
             <input
               type="number"
               name="stock"
               placeholder="Stock"
-              // value={formData.stock ?? ''}
+              value={(formData as ProductFormData).stock || ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
           </>
         )}
 
-        {/* FORMULARIO PEDIDO */}
         {type === 'pedido' && (
           <>
             <input
               type="date"
               name="fecha"
-              // value={formData.fecha ?? ''}
+              value={(formData as PedidoFormData).fecha || ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
-
             <input
               type="number"
               name="total"
               placeholder="Total"
-              // value={formData.total ?? ''}
+              value={(formData as PedidoFormData).total || ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
-
             <input
               type="text"
               name="estado"
               placeholder="Estado"
-              // value={formData.estado ?? ''}
+              value={(formData as PedidoFormData).estado || ''}
               onChange={handleChange}
               className="w-full mb-3 p-2 border rounded"
             />
@@ -148,13 +158,10 @@ export default function ModalForm<T extends FormType>({
         )}
 
         <div className="flex justify-end gap-2 mt-4">
-          <Button variant="secondary" onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button variant="default" onClick={handleSubmit}>
-            Guardar
-          </Button>
+          <Button variant="secondary" onClick={onClose}>Cancelar</Button>
+          <Button variant="default" onClick={handleSubmit}>Guardar</Button>
         </div>
+
       </div>
     </div>
   )

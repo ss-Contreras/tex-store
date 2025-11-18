@@ -57,12 +57,16 @@ export default function UsuariosPage() {
 
   const handleSubmit = (data: UsuarioFormData) => {
     if (editingUsuario) {
-      // Editar
+      // Editar usuario existente
       setUsuarios(prev =>
-        prev.map(u => (u.id === editingUsuario.id ? { ...u, ...data, compras: Number(data.compras) } : u))
+        prev.map(u =>
+          u.id === editingUsuario.id
+            ? { ...u, ...data, compras: Number(data.compras) }
+            : u
+        )
       )
     } else {
-      // Añadir
+      // Crear usuario nuevo
       const newUsuario: Usuario = {
         id: usuarios.length + 1,
         nombre: data.nombre,
@@ -131,13 +135,22 @@ export default function UsuariosPage() {
       </div>
 
       {/* Modal */}
-      <ModalForm
+      {/* <ModalForm
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         type="usuario"
-        onSubmit={handleSubmit}
-        initialData={editingUsuario}
-      />
+        // onSubmit={handleSubmit}
+        // initialData={
+        //   editingUsuario
+        //     ? {
+        //         nombre: editingUsuario.nombre,
+        //         // correo: editingUsuario.correo,
+        //         // estado: editingUsuario.estado,
+        //         // compras: editingUsuario.compras,
+        //       }
+        //     : undefined
+        // }
+      /> */}
     </div>
   )
 }
