@@ -2,11 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 
-interface ProductDetailPageProps {
-  params: { id: string };
-}
-
-export default function ProductDetailPage({ params: _params }: ProductDetailPageProps) {
+export default function ProductDetailPage() {
   return (
     <div className="flex flex-col md:flex-row gap-8">
       <div className="relative w-full md:w-1/2 h-96">
