@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import ProductList from '@/components/Product-list';
+import { Button } from '../../components/ui/button';
+import ProductList from '../../components/Product-list';
 
 export default function HomePage() {
   return (

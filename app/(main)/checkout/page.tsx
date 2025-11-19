@@ -2,11 +2,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { mockCartItems } from '@/lib/data/cart';
-import { Label } from '@/components/ui/label';
+import { Button } from '../../../components/ui/button';
+import { Input } from '../../../components/ui/input';
+import { RadioGroup, RadioGroupItem } from '../../../components/ui/radio-group';
+import { mockCartItems } from '../../../lib/data/cart';
+import { Label } from '../../../components/ui/label';
 import Image from 'next/image';
 
 type Step = 'shipping' | 'payment' | 'review';

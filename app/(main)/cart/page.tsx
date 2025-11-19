@@ -1,8 +1,8 @@
 // src/app/cart/page.tsx
 'use client'
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '../../../components/ui/button';
+import { Input } from '../../../components/ui/input';
 import Image from 'next/image';
 import { TrashIcon, PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 import { CheckBadgeIcon, TruckIcon } from '@heroicons/react/24/solid';

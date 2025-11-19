@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '@/store/store';
-import { Button } from '@/components/ui/button';
+import { RootState, AppDispatch } from '../../../../store/store';
+import { Button } from '../../../../components/ui/button';
 import { Pencil, Trash } from 'lucide-react';
 import {
   Dialog,
@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '../../../../components/ui/dialog';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,16 +22,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+} from '../../../../components/ui/alert-dialog';
+import { Input } from '../../../../components/ui/input';
+import { Textarea } from '../../../../components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '../../../../components/ui/select';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -40,13 +40,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from '../../../../components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Product } from '@/utils/types';
-import { fetchProducts, deleteProduct } from '@/store/slices/productoSlice';
+import { Product } from '../../../../utils/types';
+import { fetchProducts, deleteProduct } from '../../../../store/slices/productoSlice';
 import { useDropzone } from 'react-dropzone';
-import { fetchCategorias } from '@/store/slices/categoriaSlice';
+import { fetchCategorias } from '../../../../store/slices/categoriaSlice';
 import Image from 'next/image';
 
 // Validación del formulario

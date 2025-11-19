@@ -1,7 +1,7 @@
 // store/slices/productoSlice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { Product, PaginatedResult } from '@/utils/types';
+import { Product, PaginatedResult } from '../../utils/types';
 
 interface ProductState {
   list: Product[];

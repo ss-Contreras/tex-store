@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react'
 import { Pencil, Trash } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import ModalForm from '@/components/admin/Admin-modal-add'
+import { Button } from '../../../../components/ui/button'
+import ModalForm from '../../../../components/admin/Admin-modal-add'
 
 interface Pedido {
   id: string

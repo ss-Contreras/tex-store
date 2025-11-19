@@ -1,5 +1,5 @@
 // src/app/checkout/success/page.tsx
-import { Button } from '@/components/ui/button';
+import { Button } from '../../../../components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CheckCircleIcon } from 'lucide-react';

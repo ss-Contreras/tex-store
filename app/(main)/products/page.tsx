@@ -1,9 +1,9 @@
 // src/app/products/page.tsx
 'use client'
 
-import { products } from '@/lib/data/products';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { products } from '../../../lib/data/products';
+import { Button } from '../../../components/ui/button';
+import { Input } from '../../../components/ui/input';
 import Link from 'next/link';
 
 export default function ProductsPage() {

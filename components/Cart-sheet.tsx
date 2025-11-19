@@ -2,8 +2,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose } from './ui/sheet';
+import { Button } from './ui/button';
 import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 

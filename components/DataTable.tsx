@@ -13,7 +13,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from '@/components/ui/table';
+} from './ui/table';
 
 interface DataTableProps<TData> {
     columns: ColumnDef<TData>[];

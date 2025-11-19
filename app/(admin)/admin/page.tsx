@@ -1,10 +1,10 @@
 'use client'
 
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { Progress } from '@/components/ui/progress'
-import { DataTable } from '@/components/DataTable'
-import { recentOrders } from '@/data/mock'
-import { products } from '@/lib/data/products'
+import { Card, CardHeader, CardTitle, CardContent } from '../../../components/ui/card'
+import { Progress } from '../../../components/ui/progress'
+import { DataTable } from '../../../components/DataTable'
+import { recentOrders } from '../../../data/mock'
+import { products } from '../../../lib/data/products'
 import Image from 'next/image'
 import { ColumnDef, Row } from '@tanstack/react-table'
 

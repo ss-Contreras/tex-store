@@ -1,9 +1,9 @@
 // src/app/account/profile/page.tsx
 'use client'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Avatar, AvatarFallback, AvatarImage } from '../../../../components/ui/avatar'
+import { Button } from '../../../../components/ui/button'
+import { Input } from '../../../../components/ui/input'
 import { UserIcon, MailIcon, PhoneIcon, MapPinIcon } from 'lucide-react'
 
 export default function ProfilePage() {

@@ -1,8 +1,8 @@
 'use client';
 
 import { ReactNode, useState } from 'react';
-import { AdminNavbar } from '@/components/admin/Admin-navbar';
-import { AdminSidebar } from '@/components/admin/Admin-sidebar';
+import { AdminNavbar } from '../../components/admin/Admin-navbar';
+import { AdminSidebar } from '../../components/admin/Admin-sidebar';
 import { AdminProvider } from '@/context/AdminContent';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {

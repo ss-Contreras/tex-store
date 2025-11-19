@@ -2,9 +2,9 @@
 
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchCategorias, deleteCategoria } from '@/store/slices/categoriaSlice';
-import { RootState, AppDispatch } from '@/store/store';
-import { Button } from '@/components/ui/button';
+import { fetchCategorias, deleteCategoria } from '../../../../store/slices/categoriaSlice';
+import { RootState, AppDispatch } from '../../../../store/store';
+import { Button } from '../../../../components/ui/button';
 import { Pencil, Trash } from 'lucide-react';
 
 export default function ProductsPage() {

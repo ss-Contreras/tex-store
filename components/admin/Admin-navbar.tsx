@@ -1,9 +1,9 @@
 'use client'
 
 import { Bell, Search, Sun, Moon, Menu } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 import { useTheme } from 'next-themes';
 import { motion } from 'framer-motion';
 

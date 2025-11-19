@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Package, Users, ShoppingCart, Settings, BarChart, Folder } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 
 const links = [
   { href: '/admin', icon: LayoutDashboard, text: 'Dashboard' },
