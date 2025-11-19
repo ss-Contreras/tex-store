@@ -133,13 +133,13 @@ export default function PedidosPage() {
         </table>
       </div>
 
-      <ModalForm
+      {/* <ModalForm
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         type="pedido"
         onSubmit={handleSubmit}
         // initialData={editingPedido}
-      />
+      /> */}
     </div>
   )
 }

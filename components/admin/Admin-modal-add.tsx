@@ -7,7 +7,7 @@ import {
   UserFormData,
   ProductFormData,
   PedidoFormData
-} from '@/types/form'
+} from '../../types/form'
 
 // Tipo por cada formulario
 type FormDataMap = {
