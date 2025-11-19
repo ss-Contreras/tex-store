@@ -1,6 +1,6 @@
 import './globals.css';
 import { ReactNode } from 'react';
-import { inter } from '@/config/fonts';
+import { inter } from '../config/fonts';
 import Providers from './providers';
 import { Toaster } from 'sonner';
 
